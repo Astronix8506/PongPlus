@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
+using Random = UnityEngine.Random;
 
 
 public class Ball : MonoBehaviour
@@ -11,6 +13,7 @@ public class Ball : MonoBehaviour
     public float maxInitialAngle = 0.67f;
     public float moveSpeed = 1f;
     public float startY = 4f;
+    public float speedMultiplier = 1.1f;
 
     private float startX = 0f;
     private void Start()
@@ -46,6 +49,15 @@ public class Ball : MonoBehaviour
             gameManager.OnScoreZoneReached(scoreZone.id);
             ResetBall();
             InitialPush();
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Paddle paddle = collision.collider.GetComponent<Paddle>();
+        if (paddle)
+        {
+            rb.linearVelocity *= speedMultiplier;
         }
     }
 }
